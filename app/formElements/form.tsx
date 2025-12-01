@@ -24,7 +24,7 @@ export default function PrevievForm() {
                 <ColorInput colors={[colors[0], colors[1]]} value={colors[1]} labelValue='second color' onChange={(e: any) => setColors(prev => {let newColors = [...prev]; newColors[1] = e.target.value; return newColors;})} />
                 <ColorInput colors={[colors[0], colors[1]]} value={colors[2]} labelValue='random color input' onChange={(e: any) => setColors(prev => {let newColors = [...prev]; newColors[2] = e.target.value; return newColors;})} />
                 
-                <DateInput value={date} onChange={setDate} labelValue='Select date' colors={[colors[0], colors[1]]} />
+                <DateInput value={date} stateSetter={setDate} labelValue='Select date' colors={[colors[0], colors[1]]} />
                 <SubmitButton colors={[colors[0], colors[1]]}>Submit</SubmitButton>
             </Form>
         </div>

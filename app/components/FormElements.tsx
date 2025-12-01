@@ -118,11 +118,11 @@ export function ColorInput({ value = 'black', labelValue, onChange, colors, name
 
 // ---DATE INPUT--- //
 
-export function DateInput({ name, id, value, onChange, labelValue, colors, required } : {
+export function DateInput({ name, id, value, stateSetter, labelValue, colors, required } : {
     name? : string,
     id? : string,
     value : string,
-    onChange : any,
+    stateSetter : any,
     labelValue : string,
     colors? : string[],
     required? : boolean
@@ -159,7 +159,7 @@ export function DateInput({ name, id, value, onChange, labelValue, colors, requi
         let Date = e.target.value;
         setDate(Date);
         if (isValidDate(Date)) {
-            onChange(parseDate(Date));
+            stateSetter(parseDate(Date));
             setDateOnCalendar(parseDate(Date));
             setMonthOnCalendar(() => {
                 let dateArray = Date.split('-');
@@ -230,7 +230,7 @@ export function DateInput({ name, id, value, onChange, labelValue, colors, requi
     const setDateFromCalendar = (e : any) => {
         setDate(e.target.id);
         setDateOnCalendar(e.target.id);
-        onChange(e.target.id);
+        stateSetter(e.target.id);
     }
 
     const monthAndYear = (date : string) : string => {
