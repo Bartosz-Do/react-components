@@ -252,9 +252,9 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
             {days.map((el : string, i : number) => {
                 if (el !== '') {
                     if (`${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` === dateOnCalendar) {
-                        return <div id={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } key={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } className={`${styles.days} ${styles.selected}`} onClick={setDateFromCalendar}>{ el }</div>
+                        return <div style={{backgroundColor: colors ? colors[0] : '', color: colors ? (colors[1] ? colors[1] : '') : ''}} id={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } key={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } className={`${styles.days} ${styles.selected}`} onClick={setDateFromCalendar}>{ el }</div>
                     } else {
-                        return <div id={`${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}`} key={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } className={styles.days}  onClick={setDateFromCalendar}>{ el }</div>
+                        return <div style={{color: colors ? colors[0] : ''}} id={`${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}`} key={ `${(new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getFullYear()}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getMonth() + 1).toString().padStart(2, '0')}-${((new Date(parseInt(dateArray[0]), parseInt(dateArray[1]) - 1, parseInt(el))).getDate()).toString().padStart(2, '0')}` } className={styles.days}  onClick={setDateFromCalendar}>{ el }</div>
                     }
                 } else {
                     return <div className={styles.daysPlaceHolder} key={i}>{ el }</div>
@@ -266,29 +266,29 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
 
     return (
         <div className={styles.dateInputBox}>
-            <label htmlFor={id} className={styles.dateInputLabel} style={{fontSize: 'small'}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : ''  }</label>
-            <input type="text" id={id} name={name} className={styles.dateInput} value={date} onChange={handleChange} required={required} onFocus={() => {setIsCD(true); setIsFocused(true); setMonthOnCalendar(() => {
+            <label htmlFor={id} className={styles.dateInputLabel} style={{color: colors ? colors[0] : ''}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : ''  }</label>
+            <input style={{color: colors ? colors[0] : '', borderColor: colors ? colors[0] : '', backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}} type="text" id={id} name={name} className={styles.dateInput} value={date} onChange={handleChange} required={required} onFocus={() => {setIsCD(true); setIsFocused(true); setMonthOnCalendar(() => {
                 let dateArray = value.split('-');
                 let newArray = [];
                 newArray[0] = parseInt(dateArray[0]);
                 newArray[1] = parseInt(dateArray[1]);
                 return newArray;
             });}} onBlur={handleBlur} />
-            <div ref={calendarRef} className={styles.dateInputCalendar} style={{display: isCD || isFocused ? 'block' : 'none'}}>
+            <div ref={calendarRef} className={styles.dateInputCalendar} style={{display: isCD || isFocused ? 'block' : 'none', backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}}>
                 <div className={styles.dateInputCalendarHeader}>
-                    <div className={styles.dateInputCalendarHeaderButton} onClick={prevMonth}>&lt;</div>
-                    <p>{ monthAndYear(`${monthOnCalendar[0]}-${monthOnCalendar[1]}`) }</p>
-                    <div className={styles.dateInputCalendarHeaderButton} onClick={nextMonth}>&gt;</div>
+                    <div style={{backgroundColor: colors ? (colors[1] ? colors[1] : '') : '', color: colors ? colors[0] : ''}} className={styles.dateInputCalendarHeaderButton} onClick={prevMonth}>&lt;</div>
+                    <p style={{color: colors ? colors[0] : ''}}>{ monthAndYear(`${monthOnCalendar[0]}-${monthOnCalendar[1]}`) }</p>
+                    <div style={{backgroundColor: colors ? (colors[1] ? colors[1] : '') : '', color: colors ? colors[0] : ''}} className={styles.dateInputCalendarHeaderButton} onClick={nextMonth}>&gt;</div>
                 </div>
 
                 <div className={styles.dateInputCalendarDays}>
-                    <div className={styles.firstRow}>mon</div>
-                    <div className={styles.firstRow}>tue</div>
-                    <div className={styles.firstRow}>wed</div>
-                    <div className={styles.firstRow}>thu</div>
-                    <div className={styles.firstRow}>fri</div>
-                    <div className={styles.firstRow}>sat</div>
-                    <div className={styles.firstRow}>sun</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>mon</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>tue</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>wed</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>thu</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>fri</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>sat</div>
+                    <div className={styles.firstRow} style={{color: colors ? (colors[2] ? colors[2] : '') : ''}}>sun</div>
                     { daysOfMonth(`${monthOnCalendar[0]}-${monthOnCalendar[1]}`) }
                 </div>
             </div>

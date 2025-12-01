@@ -109,6 +109,7 @@
 }
 .dateInputLabel {
     margin: 0px;
+    font-size: small;
 }
 .dateInputCalendar {
     position: absolute;
@@ -175,7 +176,7 @@
     transition: 0.2s;
 }
 .dateInputCalendarDays .days:hover {
-    outline: 1px solid #121212;
+    outline: 1px solid;
 }
 .dateInputCalendarDays .selected {
     background-color: #121212;
