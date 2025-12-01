@@ -11,6 +11,11 @@ export default function HomePage() {
             <div className='center'>
                 <Karuzela interval={3000}>
                     <div>
+                        <p>This is a cool</p>
+                        <p>Carousel component!</p>
+                    </div>
+                    
+                    <div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                         <p>Phasellus imperdiet, nulla et dictum interdum.</p>
                     </div>
