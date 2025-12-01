@@ -1,0 +1,183 @@
+/* FORM */
+.form {
+    margin: 0px;
+    padding: 20px;
+    border: 2px solid #121212;
+    border-radius: 10px;
+}
+
+
+/* INPUT */
+.inputBox {
+    position: relative;
+    width: 170px;
+    height: 50px;
+    margin-top: 25px;
+}
+.input {
+    padding: 5px 10px 5px 10px;
+    border: 0px;
+    border-bottom: 2px solid #121212;
+    background-color: #F8F9F5;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150px;
+    font-size: medium;
+    margin: 0;
+    
+}
+.input:focus {
+    outline: 0;
+}
+.inputLabel {
+    position: relative;
+    height: 10px;
+    z-index: 10;
+    top: 5px;
+    left: 10px;
+    transition: 0.1s;
+    font-size: medium;
+    user-select: none;
+    pointer-events: none;
+}
+.inputBox:focus-within > .inputLabel {
+    top: -22px;
+    font-size: small;
+}
+
+
+/* BUTTON */
+.button {
+    margin-top: 25px;
+    background-color: #F8F9F5;
+    cursor: pointer;
+    border: 1px solid #121212;
+    padding: 2px 5px 2px 5px;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+.button:hover {
+    background-color: #121212;
+    color: #F8F9F5;
+}
+
+
+/* COLOR INPUT */
+.colorInputBox {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+}
+.colorInputLabel {
+    color: #121212;
+    margin-left: 10px;
+}
+.colorInput {
+    width: 30px;
+    height: 30px;
+    padding: 2px;
+    border-radius: 5px;
+    outline: 0px;
+    border: 1px solid #121212;
+    background-color: #F8F9F5;
+}
+.colorInput::-webkit-color-swatch {
+    border: 0px;
+    border-radius: 3px;
+}
+
+
+/* DATE INPUT */
+.dateInputBox {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: auto;
+    gap: 4px;
+    position: relative;
+}
+.dateInput {
+    width: 150px;
+    padding: 5px 10px 5px 10px;
+    font-family: 'Roboto', sans-serif;
+    border-radius: 5px;
+    outline: 0px;
+    border: 1px solid #121212;
+    background-color: #F8F9F5;
+    color: #121212;
+    font-size: medium;
+}
+.dateInputLabel {
+    margin: 0px;
+}
+.dateInputCalendar {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: -10px;
+    border-radius: 10px;
+    background-color: #F8F9F5;
+    color: #121212;
+    padding: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 0px 10px 5px;
+    z-index: 10;
+    min-width: 200px;
+    user-select: none;
+}
+.dateInputCalendarHeader {
+    display: flex;
+    font-size: medium;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px;
+}
+.dateInputCalendarHeaderButton {
+    width: 20px;
+    height: 20px;
+    font-weight: 600;
+    border: 0px;
+    outline: 0px;
+    background-color: #F8F9F5;
+    user-select: none;
+    cursor: pointer;
+    text-align: center;
+}
+.dateInputCalendarHeader p {
+    height: 20px;
+    text-align: center;
+    margin: 0px 15px 0px 15px;
+}
+.dateInputCalendarDays {
+    font-size: small;
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto;
+    column-gap: 0px;
+    row-gap: 0px;
+}
+.dateInputCalendarDays .firstRow {
+    width: 35px;
+    height: 25px;
+    text-align: center;
+    margin-top: 15px;
+    color: gray;
+}
+.dateInputCalendarDays .daysPlaceHolder {
+    width: 30px;
+    height: 30px;
+}
+.dateInputCalendarDays .days {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+.dateInputCalendarDays .days:hover {
+    outline: 1px solid #121212;
+}
+.dateInputCalendarDays .selected {
+    background-color: #121212;
+    color: #F8F9F5;
+}

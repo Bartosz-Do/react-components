@@ -1,0 +1,157 @@
+.window {
+    width: 90%;
+    height: calc(100vh - 100px - 20px);
+    outline: 2px solid #121212;
+    position: relative;
+}
+
+.header {
+    width: 100%;
+    min-height: 75px;
+    background-color: #121212;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    color: #F8F9F5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.header h2 {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.filters {
+    margin-left: 20px;
+    font-size: 14pt;
+    padding: 10px 0px 10px 0px;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.dropdown {
+    position: relative;
+    margin: 0px 20px 0px 0px;
+}
+.dropdown p {
+    margin: 0px;
+    cursor: pointer;
+    color: lightgray;
+    transition: 0.2s;
+}
+.dropdown p:hover {
+    color: white;
+}
+
+.dropdownMenu {
+    padding: 15px;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    background-color: #121212;
+    cursor:auto;
+    display: flex;
+    flex-direction: column;
+    color: #F8F9F5;
+}
+.option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+.option label {   
+    white-space: nowrap;
+}
+.option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #F8F9F5;
+    border-radius: 3px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.option input[type="checkbox"]:hover {
+    border-color: #ffffff;
+    
+}
+
+.option input[type="checkbox"]:checked {
+    background-color: #F8F9F5;
+    border-color: #F8F9F5;
+}
+
+.option input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 5px;
+    height: 10px;
+    border: solid #121212;
+    border-width: 0 2px 2px 0;
+    transform-origin: 0 0;
+    transform: rotate(45deg) translateX(-60%) translateY(-60%);
+}
+.option input[type="checkbox"]:focus {
+    outline: 2px solid rgba(248, 249, 245, 0.5);
+    outline-offset: 2px;
+}
+
+.searchBar {
+    position: relative;
+    margin-right: 20px;
+}
+
+.searchBar input[type="text"] {
+    height: 20px;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    outline: 0px;
+    border-radius: 10px;
+    width: 180px;
+}
+
+.products {
+    margin-top: 75px;
+    width: 100%;
+    height: calc(100% - 75px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.products div {
+    min-height: 100px;
+    width: 80%;
+    box-shadow: 0.1px 0.1px 18px #121212;
+    margin: 10px 0px 10px 0px;
+    font-size: 15pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.1s;
+}
+
+@media (max-width: 643px) {
+    .header {
+        height: 120px;
+    }
+    .products {
+        margin-top: 120px;
+        height: calc(100% - 120px);
+    }
+    .products div {
+        width: 90%;
+    }
+}
