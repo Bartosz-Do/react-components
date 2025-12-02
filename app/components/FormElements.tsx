@@ -160,14 +160,6 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
         setDate(Date);
         if (isValidDate(Date)) {
             stateSetter(parseDate(Date));
-            setDateOnCalendar(parseDate(Date));
-            setMonthOnCalendar(() => {
-                let dateArray = Date.split('-');
-                let newArray = [];
-                newArray[0] = parseInt(dateArray[0]);
-                newArray[1] = parseInt(dateArray[1]);
-                return newArray;
-            });
         }
     };
 
@@ -201,6 +193,14 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
         newArray[1] = parseInt(dateArray[1]);
         return newArray;
     });
+
+    useEffect(() => {
+        setDateOnCalendar(value);
+        setMonthOnCalendar(() => {
+            let dateArray = value.split('-');
+            return [parseInt(dateArray[0]), parseInt(dateArray[1])];
+        });
+    }, [value]);
 
     const nextMonth = (e: React.MouseEvent) => {
         e.stopPropagation();
