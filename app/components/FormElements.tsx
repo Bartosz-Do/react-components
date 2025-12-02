@@ -200,6 +200,7 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
             let dateArray = value.split('-');
             return [parseInt(dateArray[0]), parseInt(dateArray[1])];
         });
+        setDate(value);
     }, [value]);
 
     const nextMonth = (e: React.MouseEvent) => {
