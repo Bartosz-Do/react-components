@@ -10,10 +10,7 @@ function checkNumber(text: string): boolean {
 export default function PrevievForm() {
     const [inputValue, setInputValue] = useState<any[]>(['', '', '']);
     const [colors, setColors] = useState<string[]>(['#121212', '#F8F9F5', '#000000']);
-    const [date, setDate] = useState<string>(() => {
-        let currentDate = new Date();
-        return `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}`
-    });
+    const [date, setDate] = useState<string>('2000-01-01');
 
     return (
         <div className="center">

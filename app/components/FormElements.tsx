@@ -195,12 +195,21 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
     });
 
     useEffect(() => {
-        setDateOnCalendar(value);
-        setMonthOnCalendar(() => {
+        if (dateOnCalendar != value) {
+            setDateOnCalendar(value);
+        }
+        setMonthOnCalendar(prev => {
             let dateArray = value.split('-');
-            return [parseInt(dateArray[0]), parseInt(dateArray[1])];
+            let newArray = [parseInt(dateArray[0]), parseInt(dateArray[1])];
+            if (prev != newArray) {
+                return newArray;
+            } else {
+                return prev;
+            }
         });
-        setDate(value);
+        if (date != value) {
+            setDate(value);
+        }
     }, [value]);
 
     const nextMonth = (e: React.MouseEvent) => {
