@@ -22,27 +22,35 @@ export function Form({ action, method = 'GET', children, colors, style } : {
 
 // ---INPUT--- //
 
-export function Input({ value, labelValue, onChange, required, colors, name, id } : { 
-    value : string | number,
+export function TextInput({ value, labelValue, stateSetter, required, colors, name, id } : { 
+    value : string,
     labelValue: string,
-    onChange : any,
+    stateSetter : any,
     required? : boolean,
     colors?: string[],
     name? : string,
     id? : string
 }) {
-    const [inputStyle, setInputStyle] = useState<React.CSSProperties>({ color: `${colors ? colors[0] : ''}`, backgroundColor: `${colors ? colors[1] : ''}` });
+    const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
+        color: colors ? colors[0] : '',
+        backgroundColor: colors ? (colors[1] ? colors[1] : '') : '',
+        borderColor: colors ? colors[0] : ''
+    });
+    const [labelStyle, setLabelStyle] = useState<React.CSSProperties>({
+        color: colors ? colors[0] : '',
+        backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
+    });
 
     useEffect(() => {
         if (value) {
-            setInputStyle(prev => {
+            setLabelStyle(prev => {
                 let newStyle = {...prev};
                 newStyle.top = '-22px';
                 newStyle.fontSize = 'small';
                 return newStyle;
             });
         } else {
-            setInputStyle(prev => {
+            setLabelStyle(prev => {
                 let newStyle = {...prev};
                 newStyle.top = '';
                 newStyle.fontSize = '';
@@ -50,13 +58,136 @@ export function Input({ value, labelValue, onChange, required, colors, name, id 
             });
         }
     }, [value]);
+
+    useEffect(() => {
+        setInputStyle(prev => {
+            let newStyle = {...prev};
+            newStyle.color = colors ? colors[0] : '';
+            newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
+            newStyle.borderColor = colors ? colors[0] : '';
+            return newStyle;
+        });
+        setLabelStyle(prev => {
+            let newStyle = {...prev};
+            newStyle.color = colors ? colors[0] : '';
+            newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
+            return newStyle;
+        });
+    }, [colors]);
     
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        stateSetter(e.target.value);
+    }
+
     return (
         <div className={styles.inputBox}>
-            <label htmlFor={id} className={styles.inputLabel} style={{...inputStyle, color: `${colors ? colors[0] : ''}`, backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
-            <input type='text' id={id} name={name} value={value} className={styles.input} style={{backgroundColor: `${colors ? ( colors[1] ? colors[1] : '' ) : ''}`, color: `${colors ? colors[0] : ''}`, borderColor: `${colors ? colors[0] : ''}`}} onChange={onChange} required={ required } />
+            <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
+            <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onChange={handleChange} required={ required } />
         </div>
     )
+}
+
+export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true } : {
+    value : string,
+    labelValue: string,
+    stateSetter : any,
+    required? : boolean,
+    colors?: string[],
+    name? : string,
+    id? : string,
+    negative? : boolean,
+    float? : boolean
+}) {
+    const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
+        color: colors ? colors[0] : '',
+        backgroundColor: colors ? (colors[1] ? colors[1] : '') : '',
+        borderColor: colors ? colors[0] : ''
+    });
+    const [labelStyle, setLabelStyle] = useState<React.CSSProperties>({
+        color: colors ? colors[0] : '',
+        backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
+    });
+
+    useEffect(() => {
+        if (value) {
+            setLabelStyle(prev => {
+                let newStyle = {...prev};
+                newStyle.top = '-22px';
+                newStyle.fontSize = 'small';
+                return newStyle;
+            });
+        } else {
+            setLabelStyle(prev => {
+                let newStyle = {...prev};
+                newStyle.top = '';
+                newStyle.fontSize = '';
+                return newStyle;
+            });
+        }
+    }, [value]);
+
+    useEffect(() => {
+        setInputStyle(prev => {
+            let newStyle = {...prev};
+            newStyle.color = colors ? colors[0] : '';
+            newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
+            newStyle.borderColor = colors ? colors[0] : '';
+            return newStyle;
+        });
+        setLabelStyle(prev => {
+            let newStyle = {...prev};
+            newStyle.color = colors ? colors[0] : '';
+            newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
+            return newStyle;
+        });
+    }, [colors]);
+    
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const inputValue = e.target.value;
+        if (negative) {
+            if (float) {
+                if (inputValue === '' || /^-?\d+(\.\d+)?$/.test(inputValue) || /^-?\d+\.?$/.test(inputValue) || inputValue === '-') {
+                    stateSetter(inputValue);
+                }
+            } else {
+                if (inputValue === '' || /^-?\d+$/.test(inputValue) || inputValue === '-') {
+                    stateSetter(inputValue);
+                }
+            }
+        } else {
+            if (float) {
+                if (inputValue === '' || /^\d+(\.\d+)?$/.test(inputValue) || /^\d+\.?$/.test(inputValue)) {
+                    stateSetter(inputValue);
+                }
+            } else {
+                if (inputValue === '' || /^\d+$/.test(inputValue)) {
+                    stateSetter(inputValue);
+                }
+            }
+        }
+    };
+
+    const handleBlur = (e : React.ChangeEvent<HTMLInputElement>) => {
+        let inputValue = e.target.value;
+        if (parseFloat(inputValue) === 0) {
+            stateSetter('0');
+        } else if (inputValue === '-') {
+            stateSetter('');
+        } else if (/^-?\d+\.$/.test(inputValue)) {
+            stateSetter(inputValue.replace('.', ''));
+        } else if (/^-?\d+\.\d+$/.test(inputValue)) {
+            if (parseInt(inputValue.split('.')[1]) === 0) {
+                stateSetter(inputValue.split('.')[0]);
+            }
+        }
+    }
+
+    return (
+        <div className={styles.inputBox}>
+            <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
+            <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onBlur={handleBlur} onChange={handleChange} required={ required } />
+        </div>
+    );
 }
 
 
