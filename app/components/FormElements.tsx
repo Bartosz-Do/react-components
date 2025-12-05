@@ -244,7 +244,7 @@ export function ColorInput({ value = 'black', labelValue, stateSetter, colors, n
 
     return (
         <div className={styles.colorInputBox}>
-            <input type="color" name={name} id={id} value={value} onChange={handleChange} className={styles.colorInput} style={{
+            <input type="color" name={name} id={id} value={value ? value : '#000000'} onChange={handleChange} className={styles.colorInput} style={{
                 borderColor: colors ? colors[0] : '',
                 backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
             }} />
