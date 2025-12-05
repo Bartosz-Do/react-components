@@ -5,15 +5,16 @@ import { useState, useEffect, useRef, ReactNode } from 'react';
 
 // ---FORM--- //
 
-export function Form({ action, method = 'GET', children, colors, style } : {
+export function Form({ action, method = 'GET', children, colors, style, onSubmit } : {
     action? : string | ((formData: FormData) => void | Promise<void>),
     method? : string,
     children? : ReactNode,
     colors? : string[],
-    style? : React.CSSProperties
+    style? : React.CSSProperties,
+    onSubmit? : any
 }) {
     return (
-        <form action={action} method={method} className={styles.form} style={{...style, borderColor: colors ? colors[0] : '', backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}}>
+        <form onSubmit={onSubmit} action={action} method={method} className={styles.form} style={{...style, borderColor: colors ? colors[0] : '', backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}}>
             {children}
         </form>
     )

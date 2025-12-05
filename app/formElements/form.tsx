@@ -2,11 +2,6 @@
 import { useState } from 'react';
 import { Form, TextInput, SubmitButton, NumberInput, ColorInput, DateInput } from '../components/FormElements';
 
-function checkNumber(text: string): boolean {
-    if (text === '') return true;
-    return /^\d+$/.test(text);
-}
-
 export default function PrevievForm() {
     const [text1, setText1] = useState<string>('');
     const [text2, setText2] = useState<string>('');
@@ -28,5 +23,5 @@ export default function PrevievForm() {
                 <SubmitButton colors={[color1, color2]}>Submit</SubmitButton>
             </Form>
         </div>
-    )
+    );
 }
