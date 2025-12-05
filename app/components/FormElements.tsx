@@ -20,12 +20,12 @@ export function Form({ action, method = 'GET', children, colors, style } : {
 }
 
 
-// ---INPUT--- //
+// ---TEXT INPUT--- //
 
 export function TextInput({ value, labelValue, stateSetter, required, colors, name, id } : { 
     value : string,
     labelValue: string,
-    stateSetter : any,
+    stateSetter : Function,
     required? : boolean,
     colors?: string[],
     name? : string,
@@ -87,10 +87,13 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
     )
 }
 
+
+// ---NUMBER INPUT--- //
+
 export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true } : {
     value : string,
     labelValue: string,
-    stateSetter : any,
+    stateSetter : Function,
     required? : boolean,
     colors?: string[],
     name? : string,
@@ -227,17 +230,21 @@ export function SubmitButton({ children, colors } : {
 
 // ---COLOR INPUT--- //
 
-export function ColorInput({ value = 'black', labelValue, onChange, colors, name, id } : {
+export function ColorInput({ value = 'black', labelValue, stateSetter, colors, name, id } : {
     value : string,
     labelValue : string,
-    onChange : any,
+    stateSetter : Function,
     colors? : string[],
     name? : string,
     id? : string
 }) {
+    const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        stateSetter(e.target.value);
+    };
+
     return (
         <div className={styles.colorInputBox}>
-            <input type="color" name={name} id={id} value={value} onChange={onChange} className={styles.colorInput} style={{
+            <input type="color" name={name} id={id} value={value} onChange={handleChange} className={styles.colorInput} style={{
                 borderColor: colors ? colors[0] : '',
                 backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
             }} />
@@ -253,7 +260,7 @@ export function DateInput({ name, id, value, stateSetter, labelValue, colors, re
     name? : string,
     id? : string,
     value : string,
-    stateSetter : any,
+    stateSetter : Function,
     labelValue : string,
     colors? : string[],
     required? : boolean
