@@ -9,7 +9,7 @@ export default function HomePage() {
     return (
         <main>
             <div className='center'>
-                <Karuzela interval={3000}>
+                <Karuzela interval={4000}>
                     <div>
                         <p>This is a cool</p>
                         <p>Carousel component!</p>

@@ -12,7 +12,7 @@ export default function PrevievForm() {
 
     return (
         <div className="center">
-            <Form colors={[color1, color2]}>
+            <Form colors={[color1, color2]} method='POST'>
                 <TextInput name='text' colors={[color1, color2]} value={text1} labelValue="enter text" required={true} stateSetter={setText1} />
                 <NumberInput negative={true} float={true} name='number' colors={[color1, color2]} value={text2} labelValue="enter number" required={false} stateSetter={setText2} />
                 <ColorInput colors={[color1, color2]} value={color1} labelValue='first color' stateSetter={setColor1} />

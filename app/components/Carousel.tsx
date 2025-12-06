@@ -138,7 +138,7 @@ export default function Karuzela({ children, interval } : { children: ReactNode,
 
             <div className={styles.center}>
                 <div className={styles.loadingBar}>
-                    <div className={`${styles.loadingProgres} ${styles.loadAnim}`} key={restartKey}>
+                    <div className={styles.loadingProgres} style={{'--animation-duration': `${interval / 1000}s`} as React.CSSProperties} key={restartKey}>
                     </div>
                 </div>
             </div>

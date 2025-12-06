@@ -99,10 +99,7 @@
     background-color: #121212;
     width: 10px;
     border-radius: 5px;
-}
-
-.loadAnim {
-    animation: load 3s linear;
+    animation: load var(--animation-duration, 3s) linear;
 }
 
 .center {
