@@ -80,7 +80,7 @@
     text-decoration: none;
 }
 
-@media (max-width: 940px) {
+@media (max-width: 1050px) {
     .links {
         display: none;
     }

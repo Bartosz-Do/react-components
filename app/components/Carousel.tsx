@@ -1,6 +1,6 @@
 'use client'
 import { ReactNode, Children, createElement, useState, useEffect, useRef } from 'react';
-import styles from './styles/karuzela.module.css';
+import styles from './styles/carousel.module.css';
 
 export default function Karuzela({ children, interval } : { children: ReactNode, interval: number }) {
     const elements : any[] = Children.toArray(children);
