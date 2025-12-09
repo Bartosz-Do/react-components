@@ -15,12 +15,19 @@ export default function HomePage() {
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime magni, dolore deleniti iure odit blanditiis molestias repellendus minima voluptatum dolor et molestiae odio expedita aperiam culpa amet voluptates. Doloribus, laborum.</p>
                     </div>
                     <div>
-                        <p>hello 2</p>
-                        <p>hello 3</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi deleniti nostrum eum delectus ea reiciendis esse sunt inventore cum veniam, accusantium doloremque aliquam, corporis veritatis tempore. Soluta molestiae omnis impedit?</p>
+                        <p>second text</p>
                     </div>
                     <div>
-                        <p>hello 2</p>
-                        <p>hello 3</p>
+                        <p>This is sample text</p>
+                        <p>It's for tests</p>
+                    </div>
+                    <div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt enim reiciendis ipsam necessitatibus, ducimus rerum optio vitae. Consequuntur laboriosam ut harum soluta distinctio et ipsam enim culpa. Ut, architecto ipsa.</p>
+                    </div>
+                    <div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate adipisci ipsam veniam itaque vero reiciendis, optio assumenda, animi necessitatibus nesciunt illo, ab quasi aliquid reprehenderit autem aliquam? Molestiae, eos quos!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis voluptate reprehenderit impedit, tempore debitis eum iure, consequatur harum ipsum delectus dolore veniam. Id rerum sunt modi dignissimos perspiciatis quaerat soluta!</p>
                     </div>
                 </Carousel>
                 {/*<Karuzela interval={4000}>
