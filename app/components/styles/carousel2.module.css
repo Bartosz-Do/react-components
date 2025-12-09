@@ -1,0 +1,26 @@
+.carousel {
+    width: 500px;
+    padding: 30px 0px 30px 0px;
+    outline: 2px solid #121212;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: nowrap;
+    position: relative;
+    margin: 10px;
+}
+
+.carouselDiv {
+    margin-left: 20px;
+    padding: 10px;
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 150px;
+    outline: 2px solid #121212;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: 0.8s transform;
+}

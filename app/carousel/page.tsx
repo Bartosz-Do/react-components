@@ -1,4 +1,5 @@
 import Karuzela from '../components/Carousel';
+import Carousel from '../components/Carousel2';
 import { Metadata } from 'next';
 
 export const metadata : Metadata = {
@@ -9,7 +10,20 @@ export default function HomePage() {
     return (
         <main>
             <div className='center'>
-                <Karuzela interval={4000}>
+                <Carousel interval={2000}>
+                    <div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime magni, dolore deleniti iure odit blanditiis molestias repellendus minima voluptatum dolor et molestiae odio expedita aperiam culpa amet voluptates. Doloribus, laborum.</p>
+                    </div>
+                    <div>
+                        <p>hello 2</p>
+                        <p>hello 3</p>
+                    </div>
+                    <div>
+                        <p>hello 2</p>
+                        <p>hello 3</p>
+                    </div>
+                </Carousel>
+                {/*<Karuzela interval={4000}>
                     <div>
                         <p>This is a cool</p>
                         <p>Carousel component!</p>
@@ -45,7 +59,7 @@ export default function HomePage() {
                         <p>Morbi in sem quis dui placerat ornare.</p>
                         <p>Praesent dapibus, neque id cursus faucibus.</p>
                     </div>
-                </Karuzela>
+                </Karuzela>*/}
             </div>
         </main>
     );
