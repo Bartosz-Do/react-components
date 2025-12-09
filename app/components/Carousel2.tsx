@@ -9,14 +9,8 @@ export default function Carousel({ children, interval } : {
     const childrenArray = Children.toArray(children);
     const [centerElement, setCenterElement] = useState<number>(0);
     const [offsetX, setOffsetX] = useState<number>(440);
-    const [divWidth, setDivWidth] = useState<number>(400);
 
     const carousel = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        const width = window.innerWidth;
-        setDivWidth(width - 120);
-    }, []);
 
     useEffect(() => {
         let intervalId : any;
@@ -36,19 +30,31 @@ export default function Carousel({ children, interval } : {
     }, [interval]);
 
     useEffect(() => {
-        if (carousel.current) {
-            const width = carousel.current.clientWidth;
-            setOffsetX(width - 60);
-            setDivWidth(width - 100);
-        }     
-    }, [carousel.current]);
+        if (!carousel.current) return;
+
+        const updateDimensions = () => {
+            if (carousel.current) {
+                const width = carousel.current.clientWidth;
+                setOffsetX(width - 60);
+            }
+        };
+
+        updateDimensions();
+
+        const resizeObserver = new ResizeObserver(updateDimensions);
+        resizeObserver.observe(carousel.current);
+
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
 
     return (
         <div className={styles.carousel} ref={carousel}>
             { childrenArray.map((el, i) => {
                 if (isValidElement(el)) {
                     return (
-                        <div key={i} className={styles.carouselDiv} style={{minWidth: `${divWidth}px`, maxWidth: `${divWidth}px`, transform: `translateX(${20 - (centerElement * offsetX)}px) ${centerElement === i ? 'scale(105%)' : ''}`}}>
+                        <div key={i} className={styles.carouselDiv} style={{transform: `translateX(${20 - (centerElement * offsetX)}px) ${centerElement === i ? 'scale(105%)' : ''}`}}>
                             { createElement(el.type, el.props ? {...el.props} : {}) }
                         </div>
                     );
