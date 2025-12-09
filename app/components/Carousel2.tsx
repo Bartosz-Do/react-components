@@ -12,22 +12,33 @@ export default function Carousel({ children, interval } : {
 
     const carousel = useRef<HTMLDivElement | null>(null);
 
+    const nextElement = () => {
+        setCenterElement(prev => {
+            let newElement = prev + 1;
+            if (newElement >= childrenArray.length) {
+                newElement = 0;
+            }
+            return newElement;
+        });
+    };
+    const prevElement = () => {
+        setCenterElement(prev => {
+            let newElement = prev - 1;
+            if (newElement < 0) {
+                newElement = childrenArray.length - 1;
+            }
+            return newElement;
+        });
+    };
+
     useEffect(() => {
         let intervalId : any;
         if (interval != 0) {
-            intervalId = setInterval(() => {
-                setCenterElement(prev => {
-                    let newElement = prev + 1;
-                    if (newElement >= childrenArray.length) {
-                        newElement = 0;
-                    }
-                    return newElement;
-                });
-            }, interval);
+            intervalId = setInterval(nextElement, interval);
         }
 
         return () => clearInterval(intervalId);
-    }, [interval]);
+    }, [interval, centerElement]);
 
     useEffect(() => {
         if (!carousel.current) return;
@@ -60,6 +71,9 @@ export default function Carousel({ children, interval } : {
                     );
                 }
             }) }
+
+            <div className={styles.prevButton} onClick={prevElement}>&lt;</div>
+            <div className={styles.nextButton} onClick={nextElement}>&gt;</div>
         </div>
     );
 }

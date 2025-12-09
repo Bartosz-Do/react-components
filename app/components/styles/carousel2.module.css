@@ -9,7 +9,6 @@
     position: relative;
     margin: 10px;
 }
-
 .carouselDiv {
     margin-left: 20px;
     padding: 10px;
@@ -23,4 +22,30 @@
     justify-content: center;
     align-items: center;
     transition: 0.8s transform;
+}
+
+.prevButton, .nextButton {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    padding: 0px 20px 0px 20px;
+    background-color: #121212;
+    filter: opacity(0);
+    color: #F8F9F5;
+    display: flex;
+    align-items: center;
+    font-size: 20pt;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    user-select: none;
+}
+.prevButton {
+    left: 0;
+}
+.nextButton {
+    right: 0;
+}
+.nextButton:hover, .prevButton:hover {
+    filter: opacity(0.9);
 }

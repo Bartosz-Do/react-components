@@ -10,7 +10,7 @@ export default function HomePage() {
     return (
         <main>
             <div className='center'>
-                <Carousel interval={2000}>
+                <Carousel interval={3000}>
                     <div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime magni, dolore deleniti iure odit blanditiis molestias repellendus minima voluptatum dolor et molestiae odio expedita aperiam culpa amet voluptates. Doloribus, laborum.</p>
                     </div>
