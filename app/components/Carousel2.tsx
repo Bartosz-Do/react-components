@@ -32,16 +32,16 @@ export default function Carousel({ children, interval } : {
     useEffect(() => {
         if (!carousel.current) return;
 
-        const updateDimensions = () => {
+        const updateOffset = () => {
             if (carousel.current) {
                 const width = carousel.current.clientWidth;
                 setOffsetX(width - 60);
             }
         };
 
-        updateDimensions();
+        updateOffset();
 
-        const resizeObserver = new ResizeObserver(updateDimensions);
+        const resizeObserver = new ResizeObserver(updateOffset);
         resizeObserver.observe(carousel.current);
 
         return () => {
