@@ -1,117 +1,78 @@
-.karuzela {
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    width: 500px;
-    border: 2px solid #121212;
-    border-radius: 10px;
-    padding-top: 20px;
-    padding-bottom: 60px;
-    padding-left: 0px;
-    padding-right: 0px;
-    position: relative;
-    margin: 0px 10px 0px 10px;
-}
-
-.div {
-    width: 80%;
-    margin: 5%;
-    flex-shrink: 0;
+.carousel {
+    padding: 30px 0px 30px 0px;
     outline: 2px solid #121212;
-    border-radius: 10px;
-    padding: 0px;
-    text-align: center;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: relative;
+    margin: 10px;
+}
+.elementsDiv {
+    display: flex;
+    margin-bottom: 30px;
+}
+.carouselDiv {
+    margin-left: 20px;
+    padding: 10px;
+    min-width: calc(100% - 100px);
+    max-width: calc(100% - 100px);
+    min-height: 150px;
+    outline: 2px solid #121212;
+    border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: 0.5s;
+    align-items: center;
+    transition: 0.5s transform;
 }
 
-.div p {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.divDots {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    height: 10px;
-    letter-spacing: 5px;
-    user-select: none;
-}
-
-.previous {
+.prevButton, .nextButton {
     position: absolute;
     top: 0;
-    left: 0;
     height: 100%;
+    padding: 0px 20px 0px 20px;
     background-color: #121212;
-    opacity: 0;
+    filter: opacity(0);
     color: #F8F9F5;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 50px;
-    text-align: center;
+    align-items: center;
+    font-size: 20pt;
+    font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
     user-select: none;
 }
-
-.previous:hover {
-    opacity: 0.85;
+.prevButton {
+    left: 0;
 }
-
-.next {
-    position: absolute;
-    top: 0;
+.nextButton {
     right: 0;
-    height: 100%;
-    background-color: #121212;
-    opacity: 0;
-    color: #F8F9F5;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 50px;
-    text-align: center;
-    cursor: pointer;
-    transition: 0.3s;
-    user-select: none;
+}
+.nextButton:hover, .prevButton:hover {
+    filter: opacity(0.9);
 }
 
-.next:hover {
-    opacity: 0.85;
-}
-
-.loadingBar {
-    width: 50px;
-    height: 100%;
-    background-color: lightgray;
-    border-radius: 5px;
-}
-
-.loadingProgres {
-    height: 100%;
-    background-color: #121212;
-    width: 10px;
-    border-radius: 5px;
-    animation: load var(--animation-duration, 3s) linear;
-}
-
-.center {
-    position: absolute;
-    bottom: 40px;
-    left: 0;
+.progressBarDiv {
     width: 100%;
-    height: 10px;
     display: flex;
     justify-content: center;
+    margin-bottom: 15px;
+    height: 10px;
 }
-
+.progressBarBox {
+    width: 80px;
+    background-color: lightgray;
+    height: 10px;
+    border-radius: 5px;
+} 
+.progressBar {
+    background-color: #121212;
+    height: 10px;
+    transition: 0.1s;
+    border-radius: 5px;
+}
 @keyframes load {
     0% {
         width: 10px;
@@ -119,4 +80,20 @@
     100% {
         width: 100%;
     }
+}
+
+.dotsDiv {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #121212;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 4px;
+    transition: 0.2s;
 }

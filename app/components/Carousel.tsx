@@ -1,146 +1,142 @@
 'use client'
-import { ReactNode, Children, createElement, useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactNode, createElement, Children, isValidElement } from 'react';
 import styles from './styles/carousel.module.css';
 
-export default function Karuzela({ children, interval } : { children: ReactNode, interval: number }) {
-    const elements : any[] = Children.toArray(children);
-    const [translate, setTranslate] = useState(6.25);
-    const [element, setElement] = useState(0);
-    const [restartKey, setRestartKey] = useState<number>(0);
+export default function Carousel({ children, interval, maxWidth = 500 } : {
+    children: ReactNode[],
+    interval: number,
+    maxWidth?: number
+}) {
+    let childrenArray = Children.toArray(children);
+    const [centerElement, setCenterElement] = useState<number>(0);
+    const [offsetX, setOffsetX] = useState<number>(440);
+    const [progressBarKey, setProgressBarKey] = useState<number>(0);
 
-    const touchStartX = useRef<number | null>(null);
-    const touchStartY = useRef<number | null>(null);
-    const touchDeltaX = useRef<number>(0);
-    const dots = (() => {
-        let tab = [];
-        for (let i = 0; i < elements.length; i++) {
-            tab[i] = i;
-        }
-        return tab;
-    })();
+    const carousel = useRef<HTMLDivElement | null>(null);
+
+    const TouchStartX = useRef<number>(0);
+    const TouchDeltaX = useRef<number>(0);
+
+    const changeProgressBarKey = () => {
+        setProgressBarKey(prev => {
+            if (prev === 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+    }
+    const nextElement = () => {
+        setCenterElement(prev => {
+            let newElement = prev + 1;
+            if (newElement >= childrenArray.length) {
+                newElement = 0;
+            }
+            return newElement;
+        });
+    };
+    const prevElement = () => {
+        setCenterElement(prev => {
+            let newElement = prev - 1;
+            if (newElement < 0) {
+                newElement = childrenArray.length - 1;
+            }
+            return newElement;
+        });
+    };
 
     useEffect(() => {
-        setRestartKey(prev => prev + 1);
-        let intervalId = setTimeout(() => {
-            setTranslate(prev => {
-                if (prev === 6.25 - (112.5 * (elements.length - 1))) {
-                    return 6.25;
-                } else {
-                    return prev - 112.5
-                }
-            });
-            setElement(prev => {
-                if (prev === elements.length - 1) {
-                    return 0;
-                } else {
-                    return prev + 1;
-                }
-            });
-        }, interval);
+        childrenArray = Children.toArray(children);
+    }, [children]);
 
-        return () => clearTimeout(intervalId);
-    }, [element, elements.length, interval]);
+    useEffect(() => {
+        changeProgressBarKey();
+        let intervalId : any;
+        if (interval !== 0) {
+            intervalId = setInterval(nextElement, interval);
+        }
 
-    const changeElement = (element : number) => {
-        setElement(element);
-        setTranslate(6.25 - (element * 112.5));
-    };
+        return () => clearInterval(intervalId);
+    }, [interval, centerElement]);
 
-    const prevHandler = () => {
-        setTranslate(prev => {
-            if (prev === 6.25) {
-                return 6.25 - (112.5 * (elements.length - 1));
-            } else {
-                return prev + 112.5
+    useEffect(() => {
+        if (!carousel.current) return;
+
+        const updateOffset = () => {
+            if (carousel.current) {
+                const width = carousel.current.clientWidth;
+                setOffsetX(width - 60);
             }
-        });
-        setElement(prev => {
-            if (prev === 0) {
-                return elements.length - 1;
-            } else {
-                return prev - 1;
-            }
-        });
-    };
+        };
 
-    const nextHandler = () => {
-        setTranslate(prev => {
-            if (prev === 6.25 - (112.5 * (elements.length - 1))) {
-                return 6.25;
-            } else {
-                return prev - 112.5
-            }
-        });
-        setElement(prev => {
-            if (prev === elements.length - 1) {
-                return 0;
-            } else {
-                return prev + 1;
-            }
-        });
-    };
+        updateOffset();
 
-    const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-        const t = e.touches[0];
-        touchStartX.current = t.clientX;
-        touchStartY.current = t.clientY;
-        touchDeltaX.current = 0;
-    };
+        const resizeObserver = new ResizeObserver(updateOffset);
+        resizeObserver.observe(carousel.current);
 
-    const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-        if (touchStartX.current === null || touchStartY.current === null) return;
-        const t = e.touches[0];
-        const dx = t.clientX - touchStartX.current;
-        const dy = t.clientY - touchStartY.current;
-        if (Math.abs(dx) > Math.abs(dy)) {
-            touchDeltaX.current = dx;
+        return () => {
+            resizeObserver.disconnect();
+        };
+    }, []);
+
+    // Touch
+
+    const touchStartHandler = (e : React.TouchEvent<HTMLDivElement>) => {
+        const touch = e.touches[0];
+        if (touch) {
+            TouchStartX.current = touch.clientX;
+            TouchDeltaX.current = 0;
         }
     };
 
-    const onTouchEnd = () => {
-        const dx = touchDeltaX.current;
-        const SWIPE_THRESHOLD_PX = 40;
-        if (Math.abs(dx) > SWIPE_THRESHOLD_PX) {
-            if (dx > 0) {
-                prevHandler();
-            } else {
-                nextHandler();
+    const touchMoveHandler = (e : React.TouchEvent<HTMLDivElement>) => {
+        const touch = e.touches[0];
+        if (touch && TouchStartX.current !== 0) {
+            TouchDeltaX.current = touch.clientX - TouchStartX.current;
+        }
+    };
+
+    const touchEndHandler = () => {
+        if (Math.abs(TouchDeltaX.current) > 40) {
+            if (TouchDeltaX.current < 0) {
+                nextElement();
+            } else if (TouchDeltaX.current > 0) {
+                prevElement();
             }
         }
-        touchStartX.current = null;
-        touchStartY.current = null;
-        touchDeltaX.current = 0;
+
+        TouchStartX.current = 0;
+        TouchDeltaX.current = 0;
     };
+
 
     return (
-        <div className={styles.karuzela} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
-            { elements.map((el, i) => {
-                return createElement(
-                    el.type,
-                    { key: i, style: {
-                        transform: `translateX(${translate}%) ${i == element ? 'scale(110%)' : 'scale(100%)'}`}, 
-                        className: styles.div, 
-                        ...el.props },
-                    [...el.props.children]
-                );
-            }) }
-            <div className={styles.divDots}>
-                { dots.map((el, i) => {
-                    return (<span onClick={() => {changeElement(el)}} key={i} style={{color: `${el == element ? 'green' : '#121212'}`, transition: '0.5s', cursor: 'pointer'}}>&#9679;</span>);
+        <div className={styles.carousel} style={{maxWidth: `${maxWidth}px`}} ref={carousel} onTouchStart={touchStartHandler} onTouchMove={touchMoveHandler} onTouchEnd={touchEndHandler}>
+            <div className={styles.elementsDiv}>
+                { childrenArray.map((el, i) => {
+                    if (isValidElement(el)) {
+                        return (
+                            <div key={i} className={styles.carouselDiv} style={{transform: `translateX(${20 - (centerElement * offsetX)}px) ${centerElement === i ? 'scaleY(105%)' : ''}`}}>
+                                { createElement(el.type, el.props ? {...el.props} : {}) }
+                            </div>
+                        );
+                    }
                 }) }
             </div>
-            <div className={styles.previous} onClick={prevHandler}>
-                <h2>&lt;</h2>
-            </div>
-            <div className={styles.next} onClick={nextHandler}>
-                <h2>&gt;</h2>
-            </div>
 
-            <div className={styles.center}>
-                <div className={styles.loadingBar}>
-                    <div className={styles.loadingProgres} style={{'--animation-duration': `${interval / 1000}s`} as React.CSSProperties} key={restartKey}>
-                    </div>
+            <div className={styles.prevButton} onClick={prevElement}>&lt;</div>
+            <div className={styles.nextButton} onClick={nextElement}>&gt;</div>
+            { interval !== 0 ?  <div className={styles.progressBarDiv}>
+                <div className={styles.progressBarBox}>
+                    <div className={styles.progressBar} key={progressBarKey} style={{animation: `${styles.load} ${interval}ms linear`}}></div>
                 </div>
+            </div> : '' }
+            <div className={styles.dotsDiv}>
+                { childrenArray.map((el, i) => {
+                    return (
+                        <div key={i} className={styles.dot} style={{backgroundColor: i === centerElement ? 'green' : ''}} onClick={() => setCenterElement(i)}></div>
+                    );
+                }) }
             </div>
         </div>
     );
