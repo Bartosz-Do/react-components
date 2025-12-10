@@ -14,6 +14,9 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
 
     const carousel = useRef<HTMLDivElement | null>(null);
 
+    const TouchStartX = useRef<number>(0);
+    const TouchDeltaX = useRef<number>(0);
+
     const changeProgressBarKey = () => {
         setProgressBarKey(prev => {
             if (prev === 0) {
@@ -76,8 +79,39 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
         };
     }, []);
 
+    // Touch
+
+    const touchStartHandler = (e : React.TouchEvent<HTMLDivElement>) => {
+        const touch = e.touches[0];
+        if (touch) {
+            TouchStartX.current = touch.clientX;
+            TouchDeltaX.current = 0;
+        }
+    };
+
+    const touchMoveHandler = (e : React.TouchEvent<HTMLDivElement>) => {
+        const touch = e.touches[0];
+        if (touch && TouchStartX.current !== 0) {
+            TouchDeltaX.current = touch.clientX - TouchStartX.current;
+        }
+    };
+
+    const touchEndHandler = () => {
+        if (Math.abs(TouchDeltaX.current) > 40) {
+            if (TouchDeltaX.current < 0) {
+                nextElement();
+            } else if (TouchDeltaX.current > 0) {
+                prevElement();
+            }
+        }
+
+        TouchStartX.current = 0;
+        TouchDeltaX.current = 0;
+    };
+
+
     return (
-        <div className={styles.carousel} style={{maxWidth: `${maxWidth}px`}} ref={carousel}>
+        <div className={styles.carousel} style={{maxWidth: `${maxWidth}px`}} ref={carousel} onTouchStart={touchStartHandler} onTouchMove={touchMoveHandler} onTouchEnd={touchEndHandler}>
             <div className={styles.elementsDiv}>
                 { childrenArray.map((el, i) => {
                     if (isValidElement(el)) {
