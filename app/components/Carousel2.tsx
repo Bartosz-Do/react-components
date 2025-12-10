@@ -7,7 +7,7 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
     interval: number,
     maxWidth?: number
 }) {
-    const childrenArray = Children.toArray(children);
+    let childrenArray = Children.toArray(children);
     const [centerElement, setCenterElement] = useState<number>(0);
     const [offsetX, setOffsetX] = useState<number>(440);
 
@@ -31,6 +31,10 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
             return newElement;
         });
     };
+
+    useEffect(() => {
+        childrenArray = Children.toArray(children);
+    }, [children]);
 
     useEffect(() => {
         let intervalId : any;
