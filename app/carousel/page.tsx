@@ -10,7 +10,7 @@ export default function HomePage() {
     return (
         <main>
             <div className='center'>
-                <Carousel interval={3000}>
+                <Carousel interval={3000} maxWidth={800}>
                     <div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime magni, dolore deleniti iure odit blanditiis molestias repellendus minima voluptatum dolor et molestiae odio expedita aperiam culpa amet voluptates. Doloribus, laborum.</p>
                     </div>
@@ -20,7 +20,7 @@ export default function HomePage() {
                     </div>
                     <div>
                         <p>This is sample text</p>
-                        <p>It's for tests</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio accusamus at ipsa inventore, expedita, aut voluptatem esse voluptatum quasi soluta obcaecati ullam, eveniet autem velit animi blanditiis minima sint rem!</p>
                     </div>
                     <div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt enim reiciendis ipsam necessitatibus, ducimus rerum optio vitae. Consequuntur laboriosam ut harum soluta distinctio et ipsam enim culpa. Ut, architecto ipsa.</p>

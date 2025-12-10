@@ -2,9 +2,10 @@
 import { useState, useEffect, useRef, ReactNode, createElement, Children, isValidElement } from 'react';
 import styles from './styles/carousel2.module.css';
 
-export default function Carousel({ children, interval } : {
+export default function Carousel({ children, interval, maxWidth = 500 } : {
     children: ReactNode[],
-    interval: number
+    interval: number,
+    maxWidth?: number
 }) {
     const childrenArray = Children.toArray(children);
     const [centerElement, setCenterElement] = useState<number>(0);
@@ -61,19 +62,28 @@ export default function Carousel({ children, interval } : {
     }, []);
 
     return (
-        <div className={styles.carousel} ref={carousel}>
-            { childrenArray.map((el, i) => {
-                if (isValidElement(el)) {
-                    return (
-                        <div key={i} className={styles.carouselDiv} style={{transform: `translateX(${20 - (centerElement * offsetX)}px) ${centerElement === i ? 'scale(105%)' : ''}`}}>
-                            { createElement(el.type, el.props ? {...el.props} : {}) }
-                        </div>
-                    );
-                }
-            }) }
+        <div className={styles.carousel} style={{maxWidth: `${maxWidth}px`}} ref={carousel}>
+            <div className={styles.elementsDiv}>
+                { childrenArray.map((el, i) => {
+                    if (isValidElement(el)) {
+                        return (
+                            <div key={i} className={styles.carouselDiv} style={{transform: `translateX(${20 - (centerElement * offsetX)}px) ${centerElement === i ? 'scaleY(105%)' : ''}`}}>
+                                { createElement(el.type, el.props ? {...el.props} : {}) }
+                            </div>
+                        );
+                    }
+                }) }
+            </div>
 
             <div className={styles.prevButton} onClick={prevElement}>&lt;</div>
             <div className={styles.nextButton} onClick={nextElement}>&gt;</div>
+            <div className={styles.dotsDiv}>
+                { childrenArray.map((el, i) => {
+                    return (
+                        <div key={i} className={styles.dot} onClick={() => setCenterElement(i)}></div>
+                    )
+                }) }
+            </div>
         </div>
     );
 }
