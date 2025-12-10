@@ -10,9 +10,19 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
     let childrenArray = Children.toArray(children);
     const [centerElement, setCenterElement] = useState<number>(0);
     const [offsetX, setOffsetX] = useState<number>(440);
+    const [progressBarKey, setProgressBarKey] = useState<number>(0);
 
     const carousel = useRef<HTMLDivElement | null>(null);
 
+    const changeProgressBarKey = () => {
+        setProgressBarKey(prev => {
+            if (prev === 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        })
+    }
     const nextElement = () => {
         setCenterElement(prev => {
             let newElement = prev + 1;
@@ -37,8 +47,9 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
     }, [children]);
 
     useEffect(() => {
+        changeProgressBarKey();
         let intervalId : any;
-        if (interval != 0) {
+        if (interval !== 0) {
             intervalId = setInterval(nextElement, interval);
         }
 
@@ -81,6 +92,11 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
 
             <div className={styles.prevButton} onClick={prevElement}>&lt;</div>
             <div className={styles.nextButton} onClick={nextElement}>&gt;</div>
+            { interval !== 0 ?  <div className={styles.progressBarDiv}>
+                <div className={styles.progressBarBox}>
+                    <div className={styles.progressBar} key={progressBarKey} style={{animation: `${styles.load} ${interval}ms linear`}}></div>
+                </div>
+            </div> : '' }
             <div className={styles.dotsDiv}>
                 { childrenArray.map((el, i) => {
                     return (
