@@ -80,8 +80,8 @@ export default function Carousel({ children, interval, maxWidth = 500 } : {
             <div className={styles.dotsDiv}>
                 { childrenArray.map((el, i) => {
                     return (
-                        <div key={i} className={styles.dot} onClick={() => setCenterElement(i)}></div>
-                    )
+                        <div key={i} className={styles.dot} style={{backgroundColor: i === centerElement ? 'green' : ''}} onClick={() => setCenterElement(i)}></div>
+                    );
                 }) }
             </div>
         </div>

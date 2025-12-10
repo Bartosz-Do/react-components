@@ -67,4 +67,5 @@
     border-radius: 50%;
     cursor: pointer;
     margin: 4px;
+    transition: 0.2s;
 }
