@@ -1,6 +1,6 @@
 'use client'
 import styles from './styles/formElements.module.css';
-import { useState, useEffect, useRef, ReactNode } from 'react';
+import { useState, useEffect, useRef, ReactNode, Children } from 'react';
 
 
 // ---FORM--- //
@@ -23,24 +23,32 @@ export function Form({ action, method = 'GET', children, colors, style, onSubmit
 
 // ---TEXT INPUT--- //
 
-export function TextInput({ value, labelValue, stateSetter, required, colors, name, id } : { 
+export function TextInput({ value, labelValue, stateSetter, required, colors, name, id, image } : { 
     value : string,
     labelValue: string,
     stateSetter : Function,
     required? : boolean,
     colors?: string[],
     name? : string,
-    id? : string
+    id? : string,
+    image? : {viewBox: string, path: string | string[]}
 }) {
+    let imagePath = Children.toArray(image?.path);
     const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
         color: colors ? colors[0] : '',
         backgroundColor: colors ? (colors[1] ? colors[1] : '') : '',
-        borderColor: colors ? colors[0] : ''
+        borderColor: colors ? colors[0] : '',
+        paddingRight: image ? '30px' : '',
+        width: image ? '160px' : ''
     });
     const [labelStyle, setLabelStyle] = useState<React.CSSProperties>({
         color: colors ? colors[0] : '',
         backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
     });
+
+    useEffect(() => {
+        imagePath = Children.toArray(image?.path);
+    }, [image]);
 
     useEffect(() => {
         if (value) {
@@ -66,6 +74,8 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
             newStyle.color = colors ? colors[0] : '';
             newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
             newStyle.borderColor = colors ? colors[0] : '';
+            newStyle.paddingRight = image ? '30px' : '';
+            newStyle.width = image ? '160px' : '';
             return newStyle;
         });
         setLabelStyle(prev => {
@@ -74,7 +84,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
             newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
             return newStyle;
         });
-    }, [colors]);
+    }, [colors, image]);
     
     const handleChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         stateSetter(e.target.value);
@@ -84,6 +94,12 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
         <div className={styles.inputBox}>
             <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
             <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onChange={handleChange} required={ required } />
+            
+            { image && <svg className={styles.inputImage} style={{fill: colors ? colors[0] : ''}} xmlns='http://www.w3.org/2000/svg' viewBox={image.viewBox}>
+                {imagePath.map((el: any, i: number) => {
+                    return (<path key={i} d={el} />);
+                })}
+            </svg> }
         </div>
     )
 }
@@ -91,7 +107,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
 
 // ---NUMBER INPUT--- //
 
-export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true } : {
+export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true, image } : {
     value : string,
     labelValue: string,
     stateSetter : Function,
@@ -100,17 +116,25 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
     name? : string,
     id? : string,
     negative? : boolean,
-    float? : boolean
+    float? : boolean,
+    image? : {viewBox: string, path: string | string[]}
 }) {
+    let imagePath = Children.toArray(image?.path);
     const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
         color: colors ? colors[0] : '',
         backgroundColor: colors ? (colors[1] ? colors[1] : '') : '',
-        borderColor: colors ? colors[0] : ''
+        borderColor: colors ? colors[0] : '',
+        paddingRight: image ? '30px' : '',
+        width: image ? '160px' : ''
     });
     const [labelStyle, setLabelStyle] = useState<React.CSSProperties>({
         color: colors ? colors[0] : '',
         backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''
     });
+
+    useEffect(() => {
+        imagePath = Children.toArray(image?.path);
+    }, [image]);
 
     useEffect(() => {
         if (value) {
@@ -136,6 +160,8 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
             newStyle.color = colors ? colors[0] : '';
             newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
             newStyle.borderColor = colors ? colors[0] : '';
+            newStyle.paddingRight = image ? '30px' : '';
+            newStyle.width = image ? '160px' : '';
             return newStyle;
         });
         setLabelStyle(prev => {
@@ -190,6 +216,11 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
         <div className={styles.inputBox}>
             <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
             <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onBlur={handleBlur} onChange={handleChange} required={ required } />
+            { image && <svg className={styles.inputImage} style={{fill: colors ? colors[0] : ''}} xmlns='http://www.w3.org/2000/svg' viewBox={image.viewBox}>
+                {imagePath.map((el: any, i: number) => {
+                    return (<path key={i} d={el} />);
+                })}
+            </svg> }
         </div>
     );
 }

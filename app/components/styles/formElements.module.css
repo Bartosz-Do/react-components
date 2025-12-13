@@ -10,9 +10,9 @@
 /* INPUT */
 .inputBox {
     position: relative;
-    width: 170px;
-    height: 50px;
-    margin-top: 25px;
+    width: 200px;
+    height: 30px;
+    margin-top: 50px;
 }
 .input {
     padding: 5px 10px 5px 10px;
@@ -22,7 +22,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 150px;
+    width: 180px;
     font-size: medium;
     margin: 0;
     
@@ -45,6 +45,17 @@
     top: -22px;
     font-size: small;
 }
+.inputImage {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    height: 18px;
+    width: 18px;
+    fill: #121212;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+}
 
 
 /* BUTTON */
@@ -65,7 +76,7 @@
 
 /* COLOR INPUT */
 .colorInputBox {
-    margin-top: 25px;
+    margin-top: 35px;
     display: flex;
     align-items: center;
 }
@@ -98,7 +109,7 @@
     position: relative;
 }
 .dateInput {
-    width: 150px;
+    width: 180px;
     padding: 5px 10px 5px 10px;
     font-family: 'Roboto', sans-serif;
     border-radius: 5px;
