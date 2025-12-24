@@ -40,7 +40,7 @@ export function BackgroundBlurForm({ action, method = 'GET', children, style, on
 
 // ---TEXT INPUT--- //
 
-export function TextInput({ value, labelValue, stateSetter, required, colors, name, id, image } : { 
+export function TextInput({ value, labelValue, stateSetter, required, colors, name, id, image, style } : { 
     value : string,
     labelValue: string,
     stateSetter : Function,
@@ -49,6 +49,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
     name? : string,
     id? : string,
     image? : {viewBox: string, path: string | string[]},
+    style? : React.CSSProperties
 }) {
     let imagePath = Children.toArray(image?.path);
     const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
@@ -108,7 +109,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
     }
 
     return (
-        <div className={styles.inputBox}>
+        <div className={styles.inputBox} style={style}>
             <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
             <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onChange={handleChange} required={ required } />
             
