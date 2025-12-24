@@ -5,6 +5,12 @@
     border: 2px solid #121212;
     border-radius: 10px;
 }
+.formBlur {
+    margin: 0px;
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+}
 
 
 /* INPUT */
@@ -69,8 +75,7 @@
     transition: 0.2s;
 }
 .button:hover {
-    background-color: #121212;
-    color: #F8F9F5;
+    cursor: pointer;
 }
 
 

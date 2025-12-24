@@ -7,6 +7,13 @@
     background-size: cover;
     z-index: 10;
 }
+.centerOnScreen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 
 .form {
     position: absolute;

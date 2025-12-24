@@ -1,5 +1,6 @@
 'use client'
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { BackgroundBlurForm, TextInput, SubmitButton } from './FormElements';
 import styles from './styles/logInForm.module.css';
 
 export default function LogInForm() {
@@ -8,6 +9,7 @@ export default function LogInForm() {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+        console.log(`username:\t${username}\npassword:\t${password}`);
     };
 
     const handleChangeUn = ({ target } : ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +22,7 @@ export default function LogInForm() {
 
     return (
         <>
-        <div className={styles.background}>
+        {/*<div className={styles.background}>
             <form className={styles.form} method='POST' onSubmit={handleSubmit}>
             <h2>Sign In!</h2>
                 <label htmlFor="username">Username</label>
@@ -29,6 +31,15 @@ export default function LogInForm() {
                 <input type="password" id='password' value={password} onChange={handleChangePw} />
                 <button type='submit'>Sign In!</button>
             </form>
+        </div>*/}
+        <div className={styles.background}>
+            <div className={styles.centerOnScreen}>
+                <BackgroundBlurForm style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}} onSubmit={handleSubmit}>
+                    <h2 style={{color: '#F8F9F5', textAlign: 'center'}}>Sign In!</h2>
+                    <TextInput value={username} labelValue='Username' stateSetter={setUsername} colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']} />
+                    <SubmitButton changeOnHover={false} colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']}>Sign In!</SubmitButton>
+                </BackgroundBlurForm>
+            </div>
         </div>
         </>
     )

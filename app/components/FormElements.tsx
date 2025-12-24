@@ -6,12 +6,12 @@ import { useState, useEffect, useRef, ReactNode, Children } from 'react';
 // ---FORM--- //
 
 export function Form({ action, method = 'GET', children, colors, style, onSubmit } : {
-    action? : string | ((formData: FormData) => void | Promise<void>),
+    action? : string | ((e: FormData) => void | Promise<void>),
     method? : string,
     children? : ReactNode,
     colors? : string[],
     style? : React.CSSProperties,
-    onSubmit? : any
+    onSubmit?: (e: React.FormEvent) => void
 }) {
     return (
         <form onSubmit={onSubmit} action={action} method={method} className={styles.form} style={{...style, borderColor: colors ? colors[0] : '', backgroundColor: colors ? (colors[1] ? colors[1] : '') : ''}}>
@@ -21,9 +21,26 @@ export function Form({ action, method = 'GET', children, colors, style, onSubmit
 }
 
 
+// ---FORM WITH BLURED BACKGROUND--- //
+export function BackgroundBlurForm({ action, method = 'GET', children, style, onSubmit } : {
+    action?: string | ((formData: FormData) => void | Promise<void>),
+    method?: string,
+    children: ReactNode,
+    colors?: string[],
+    style?: React.CSSProperties,
+    onSubmit?: (e: React.FormEvent) => void
+}) {
+    return (
+        <form action={action} method={method} style={style} onSubmit={onSubmit} className={styles.formBlur}>
+            { children }
+        </form>
+    );
+}
+
+
 // ---TEXT INPUT--- //
 
-export function TextInput({ value, labelValue, stateSetter, required, colors, name, id, image, style } : { 
+export function TextInput({ value, labelValue, stateSetter, required, colors, name, id, image } : { 
     value : string,
     labelValue: string,
     stateSetter : Function,
@@ -32,7 +49,6 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
     name? : string,
     id? : string,
     image? : {viewBox: string, path: string | string[]},
-    style? : React.CSSProperties
 }) {
     let imagePath = Children.toArray(image?.path);
     const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
@@ -92,7 +108,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
     }
 
     return (
-        <div className={styles.inputBox} style={style}>
+        <div className={styles.inputBox}>
             <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#C21807'}}>*</span> : '' }</label>
             <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onChange={handleChange} required={ required } />
             
@@ -227,35 +243,58 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
 }
 
 
+// ---PASSWORD INPUT--- //
+export function PasswordInput({ value, stateSetter, labelValue, required = false, colors, name, id } : {
+    value : string,
+    stateSetter : Function,
+    labelValue : string,
+    required? : boolean,
+    colors? : string[],
+    name? : string,
+    id? : string
+}) {
+    
+}
+
+
 // ---BUTTON--- //
 
-export function SubmitButton({ children, colors } : {
+export function SubmitButton({ children, colors, changeOnHover = true } : {
     children? : ReactNode,
-    colors? : string[]
+    colors? : string[],
+    changeOnHover? : boolean
 }) {
-    const [buttonStyle, setButtonStyle] = useState<React.CSSProperties>({});
+    const [buttonStyle, setButtonStyle] = useState<React.CSSProperties>({
+        color: colors ? colors[0] : '',
+        backgroundColor: colors ? (colors[1] ? colors[1] : '') : '',
+        borderColor: colors ? colors[0] : ''
+    });
 
     const handleMouseOver = () => {
-        setButtonStyle(prev => {
-            let newStyle = { ...prev };
-            newStyle.color = colors ? (colors[1] ? colors[1] : '') : '';
-            newStyle.backgroundColor = colors ? colors[0] : '';
-            return newStyle;
-        });
+        if (changeOnHover) {
+            setButtonStyle(prev => {
+                let newStyle = { ...prev };
+                newStyle.color = colors ? (colors[1] ? colors[1] : '') : '';
+                newStyle.backgroundColor = colors ? colors[0] : '';
+                return newStyle;
+            });
+        }
     };
 
     const handleMouseOut = () => {
-        setButtonStyle(prev => {
-            let newStyle = { ...prev };
-            delete newStyle.color;
-            delete newStyle.backgroundColor;
-            return newStyle;
-        });
+        if (changeOnHover) {
+            setButtonStyle(prev => {
+                let newStyle = { ...prev };
+                newStyle.color = colors ? colors[0] : '';
+                newStyle.backgroundColor = colors ? (colors[1] ? colors[1] : '') : '';
+                return newStyle;
+            });
+        }
     };
-
+    
     return (
         <div>
-        <button type='submit' className={styles.button} style={{backgroundColor: `${colors ? ( colors[1] ? colors[1] : '' ) : ''}`, color: `${colors ? colors[0] : ''}`, borderColor: `${colors ? colors[0] : ''}`, ...buttonStyle}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>{ children }</button>
+            <button type='submit' className={styles.button} style={{...buttonStyle}} onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>{ children }</button>
         </div>
     )
 }
