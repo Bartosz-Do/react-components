@@ -1,45 +1,29 @@
 'use client'
 import styles from './styles/logInForm.module.css';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { useState } from 'react';
+import { TextInput, PasswordInput, BackgroundBlurForm, SubmitButton, EmailInput } from './FormElements';
 
 export default function CreateAccountForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
 
-    const inputChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        switch (e.target.id) {
-            case 'username':
-                setUsername(e.target.value);
-                break;
-            case 'password':
-                setPassword(e.target.value);
-                break;
-            case 'email':
-                setEmail(e.target.value);
-                break;
-            default:
-                return;
-        }
-    }
-
-    const handleSubmit = (e : FormEvent) => {
+    const handleSubmit = (e : React.FormEvent) => {
         e.preventDefault();
-        console.log(username);
-    }
+        console.log(`username:\t${username}\npassword:\t${password}\nemail:\t${email}`);
+    };
 
     return (
         <div className={styles.background}>
-            <form className={styles.form} onSubmit={handleSubmit}>
-                <h2>Sign Up!</h2>
-                <label htmlFor='username'>Username</label>
-                <input type='text' id='username' value={username} onChange={inputChangeHandler} />
-                <label htmlFor='password'>Password</label>
-                <input type="password" id="password" value={password} onChange={inputChangeHandler} />
-                <label htmlFor="email">E-mail</label>
-                <input type="email" id="email" value={email} onChange={inputChangeHandler} />
-                <button type="submit">Sign Up!</button>
-            </form>
+            <div className={styles.centerOnScreen}>
+                <BackgroundBlurForm style={{boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px'}} onSubmit={handleSubmit}>
+                    <h2 style={{color: '#F8F9F5', textAlign: 'center'}}>Sign Up!</h2>
+                    <TextInput value={username} stateSetter={setUsername} labelValue='Username' colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']} required={true} />
+                    <PasswordInput value={password} stateSetter={setPassword} labelValue='Password' colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']} required={true} />
+                    <EmailInput value={email} stateSetter={setEmail} labelValue='E-mail' colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']} required={true} />
+                    <SubmitButton changeOnHover={false} colors={['#F8F9F5', 'rgba(0, 0, 0, 0)']}>Sign Up!</SubmitButton>
+                </BackgroundBlurForm>
+            </div>
         </div>
     );
 }
