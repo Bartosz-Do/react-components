@@ -125,7 +125,7 @@ export function TextInput({ value, labelValue, stateSetter, required, colors, na
 
 // ---NUMBER INPUT--- //
 
-export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true, image } : {
+export function NumberInput({ value, labelValue, stateSetter, required, colors, name, id, negative = true, float = true, image, style } : {
     value : string,
     labelValue: string,
     stateSetter : Function,
@@ -135,7 +135,8 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
     id? : string,
     negative? : boolean,
     float? : boolean,
-    image? : {viewBox: string, path: string | string[]}
+    image? : {viewBox: string, path: string | string[]},
+    style? : React.CSSProperties
 }) {
     let imagePath = Children.toArray(image?.path);
     const [inputStyle, setInputStyle] = useState<React.CSSProperties>({
@@ -231,7 +232,7 @@ export function NumberInput({ value, labelValue, stateSetter, required, colors, 
     }
 
     return (
-        <div className={styles.inputBox}>
+        <div className={styles.inputBox} style={style}>
             <label htmlFor={id} className={styles.inputLabel} style={{...labelStyle}}>{ labelValue } { required ? <span style={{color: '#DC3545'}}>*</span> : '' }</label>
             <input type='text' id={id} name={name} value={value} className={styles.input} style={{...inputStyle}} onBlur={handleBlur} onChange={handleChange} required={ required } />
             { image && <svg className={styles.inputImage} style={{fill: colors ? colors[0] : ''}} xmlns='http://www.w3.org/2000/svg' viewBox={image.viewBox}>
